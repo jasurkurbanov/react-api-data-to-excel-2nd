@@ -12,13 +12,7 @@ function App() {
     const fetchData = () =>{
      axios.get('https://jsonplaceholder.typicode.com/posts').then(postData => {
      
-     // reshaping the array
-     const customHeadings = postData.data.map(item=>({
-       "Article Id": item.id,
-       "Article Title": item.title
-     }))
-
-      setData(customHeadings) 
+      setData(postData.data) 
      })
     }
     fetchData()

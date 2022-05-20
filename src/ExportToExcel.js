@@ -9,6 +9,8 @@ export const ExportToExcel = ({ apiData, fileName }) => {
 
   const exportToCSV = (apiData, fileName) => {
     const ws = XLSX.utils.json_to_sheet(apiData);
+    /* custom headers */
+    XLSX.utils.sheet_add_aoa(ws, [["Name", "Birthday", "Age", "City"]], { origin: "A1" });
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
