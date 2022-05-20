@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import React from 'react'
+import axios from 'axios'
 import './App.css';
 
+import {ExportToExcel} from './ExportToExcel'
+
 function App() {
+  const [data, setData] = React.useState([])
+  const fileName = "myfile"; // here enter filename for your excel file
+
+  React.useEffect(() => {
+    const fetchData = () =>{
+     axios.get('https://jsonplaceholder.typicode.com/posts').then(postData => {
+     
+     // reshaping the array
+     const customHeadings = postData.data.map(item=>({
+       "Article Id": item.id,
+       "Article Title": item.title
+     }))
+
+      setData(customHeadings) 
+     })
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ExportToExcel apiData={data} fileName={fileName} />
     </div>
   );
 }
